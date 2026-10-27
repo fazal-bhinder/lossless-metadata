@@ -1,6 +1,6 @@
 {
   "name": "lossless-metadata",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Read and losslessly strip EXIF, GPS, XMP, IPTC, C2PA and AI metadata from JPEG, PNG, WebP, GIF, TIFF, HEIC, AVIF, MP4 and MOV, in the browser or Node. No re-encoding.",
   "type": "module",
   "exports": {

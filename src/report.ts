@@ -1,6 +1,6 @@
-import { formatBytes } from './bytes';
-import { CATEGORY_LABEL } from './tags';
-import type { MetadataReport, StripResult, VerificationResult } from './types';
+import { formatBytes } from './bytes.js';
+import { CATEGORY_LABEL } from './tags.js';
+import type { MetadataReport, StripResult, VerificationResult } from './types.js';
 
 export interface AuditBundle {
   before: MetadataReport;

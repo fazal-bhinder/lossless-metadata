@@ -1,5 +1,5 @@
-import { readMetadata, isVideo } from './read';
-import type { MetadataReport, StripResult, VerificationResult, Tag } from './types';
+import { readMetadata, isVideo } from './read.js';
+import type { MetadataReport, StripResult, VerificationResult, Tag } from './types.js';
 
 /** Tags that are structural, not personal — their presence is not a failure. */
 const BENIGN = new RegExp(

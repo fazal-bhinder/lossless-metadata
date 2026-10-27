@@ -1,4 +1,4 @@
-import type { Category, Severity } from './types';
+import type { Category, Severity } from './types.js';
 
 interface Rule { test: RegExp; category: Category; severity: Severity }
 

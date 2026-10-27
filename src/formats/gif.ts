@@ -1,4 +1,4 @@
-import { concat } from '../bytes';
+import { concat } from '../bytes.js';
 
 /**
  * GIF carries metadata in Comment (0xFE) and Application (0xFF) extension

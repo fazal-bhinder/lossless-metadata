@@ -1,5 +1,5 @@
-import { concat, ascii, u32be } from '../bytes';
-import type { StripOptions } from '../types';
+import { concat, ascii, u32be } from '../bytes.js';
+import type { StripOptions } from '../types.js';
 
 /**
  * PNG is a signature followed by length-prefixed, CRC-checked chunks.

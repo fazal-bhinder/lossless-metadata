@@ -1,14 +1,14 @@
 import ExifReader from 'exifreader';
-import { sniffFormat } from './bytes';
-import { classify } from './tags';
-import { detectAi, detectC2pa } from './detect';
-import { scanJpeg } from './formats/jpeg';
-import { scanPng } from './formats/png';
-import { scanWebp } from './formats/webp';
-import { scanGif } from './formats/gif';
-import { scanTiff } from './formats/tiff';
-import { scanHeif, scanMoov } from './formats/isobmff';
-import type { FormatId, GpsFix, MetadataReport, Tag } from './types';
+import { sniffFormat } from './bytes.js';
+import { classify } from './tags.js';
+import { detectAi, detectC2pa } from './detect.js';
+import { scanJpeg } from './formats/jpeg.js';
+import { scanPng } from './formats/png.js';
+import { scanWebp } from './formats/webp.js';
+import { scanGif } from './formats/gif.js';
+import { scanTiff } from './formats/tiff.js';
+import { scanHeif, scanMoov } from './formats/isobmff.js';
+import type { FormatId, GpsFix, MetadataReport, Tag } from './types.js';
 
 const LOSSLESS_FORMATS = new Set<FormatId>(['jpeg', 'png', 'webp', 'gif', 'tiff', 'heic', 'avif', 'mp4', 'mov']);
 const VIDEO_FORMATS = new Set<FormatId>(['mp4', 'mov']);

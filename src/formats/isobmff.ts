@@ -1,4 +1,4 @@
-import { ascii } from '../bytes';
+import { ascii } from '../bytes.js';
 
 /**
  * ISO Base Media File Format — the container behind HEIC, AVIF, MP4 and MOV.

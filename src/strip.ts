@@ -1,12 +1,12 @@
-import { sniffFormat } from './bytes';
-import { stripJpeg } from './formats/jpeg';
-import { stripPng } from './formats/png';
-import { stripWebp } from './formats/webp';
-import { stripGif } from './formats/gif';
-import { stripTiff } from './formats/tiff';
-import { stripHeif, cleanMoov } from './formats/isobmff';
-import { locateMoov, isVideo } from './read';
-import type { FormatId, StripOptions, StripResult } from './types';
+import { sniffFormat } from './bytes.js';
+import { stripJpeg } from './formats/jpeg.js';
+import { stripPng } from './formats/png.js';
+import { stripWebp } from './formats/webp.js';
+import { stripGif } from './formats/gif.js';
+import { stripTiff } from './formats/tiff.js';
+import { stripHeif, cleanMoov } from './formats/isobmff.js';
+import { locateMoov, isVideo } from './read.js';
+import type { FormatId, StripOptions, StripResult } from './types.js';
 
 const MIME: Record<string, string> = {
   jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', avif: 'image/avif',

@@ -1,5 +1,5 @@
-import { concat, startsWith, ascii } from '../bytes';
-import type { StripOptions } from '../types';
+import { concat, startsWith, ascii } from '../bytes.js';
+import type { StripOptions } from '../types.js';
 
 /**
  * JPEG is a sequence of marker segments followed by entropy-coded scan data.

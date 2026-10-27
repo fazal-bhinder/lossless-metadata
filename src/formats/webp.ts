@@ -1,5 +1,5 @@
-import { concat, ascii, writeU32le } from '../bytes';
-import type { StripOptions } from '../types';
+import { concat, ascii, writeU32le } from '../bytes.js';
+import type { StripOptions } from '../types.js';
 
 /**
  * WebP is RIFF: "RIFF" <size> "WEBP" then FourCC chunks.

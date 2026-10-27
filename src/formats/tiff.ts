@@ -1,5 +1,5 @@
-import { concat } from '../bytes';
-import type { StripOptions } from '../types';
+import { concat } from '../bytes.js';
+import type { StripOptions } from '../types.js';
 
 /**
  * TIFF is the awkward one: the metadata *is* the directory structure, and every
