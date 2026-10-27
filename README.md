@@ -16,6 +16,10 @@ It is the engine behind [metadataremoverai.com](https://metadataremoverai.com), 
 
 ## Use
 
+```
+npm install lossless-metadata
+```
+
 ```ts
 import { readMetadata, stripFile, verify, DEFAULT_STRIP_OPTIONS } from 'lossless-metadata';
 

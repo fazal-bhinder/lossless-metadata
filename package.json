@@ -3,17 +3,51 @@
   "version": "0.1.0",
   "description": "Read and losslessly strip EXIF, GPS, XMP, IPTC, C2PA and AI metadata from JPEG, PNG, WebP, GIF, TIFF, HEIC, AVIF, MP4 and MOV, in the browser or Node. No re-encoding.",
   "type": "module",
-  "exports": "./src/index.ts",
-  "files": ["src"],
-  "engines": { "node": ">=22.12.0" },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
+    "build": "rm -rf dist && esbuild src/index.ts --bundle --format=esm --platform=neutral --target=es2022 --external:exifreader --outfile=dist/index.js && tsc -p .",
+    "prepublishOnly": "npm run build && npm test",
     "test": "tsx test/run.ts && python3 test/verify.py",
     "fixtures": "python3 test/make-fixtures.py"
   },
-  "keywords": ["exif", "metadata", "gps", "xmp", "c2pa", "heic", "privacy", "strip-exif", "lossless"],
+  "keywords": [
+    "exif",
+    "metadata",
+    "gps",
+    "xmp",
+    "c2pa",
+    "heic",
+    "privacy",
+    "strip-exif",
+    "lossless"
+  ],
   "homepage": "https://metadataremoverai.com",
   "license": "MIT",
   "author": "Fazal (https://github.com/fazal-bhinder)",
-  "dependencies": { "exifreader": "^4.44.0" },
-  "devDependencies": { "tsx": "^4.23.12", "typescript": "^5.9.3" }
+  "dependencies": {
+    "exifreader": "^4.44.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.12",
+    "typescript": "^5.9.3",
+    "esbuild": "^0.28.2"
+  },
+  "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fazal-bhinder/lossless-metadata.git"
+  },
+  "bugs": "https://github.com/fazal-bhinder/lossless-metadata/issues",
+  "sideEffects": false
 }
