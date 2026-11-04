@@ -62,6 +62,37 @@ function readIfds(bytes: Uint8Array, le: boolean, first: number): Ifd[] {
 
 const byteLength = (e: Entry) => (TYPE_SIZE[e.type] ?? 1) * e.count;
 
+/** Exif, GPS and Interoperability pointers: each one points at a whole sub-directory. */
+const SUB_IFD = new Set([0x8769, 0x8825, 0xa005]);
+
+/**
+ * Dropping a pointer tag only unlinks its sub-directory; the serial numbers,
+ * GPS rationals and comments it holds would still sit in the file as orphaned
+ * bytes. So zero the sub-directory and every out-of-line value it owns too.
+ * Reads from the original `bytes`, writes to `body`.
+ */
+function blankSubIfd(bytes: Uint8Array, body: Uint8Array, le: boolean, at: number, seen: Set<number>): number {
+  let removed = 0;
+  for (const ifd of readIfds(bytes, le, at)) {
+    if (seen.has(ifd.start)) continue;
+    seen.add(ifd.start);
+    for (const e of ifd.entries) {
+      const len = byteLength(e);
+      if (len > 4 && e.valueOffset + len <= body.length) {
+        body.fill(0, e.valueOffset, e.valueOffset + len);
+        removed += len;
+      }
+      if (SUB_IFD.has(e.tag)) removed += blankSubIfd(bytes, body, le, e.valueOffset, seen);
+    }
+    const dirSize = 2 + ifd.entries.length * 12 + 4;
+    if (ifd.start + dirSize <= body.length) {
+      body.fill(0, ifd.start, ifd.start + dirSize);
+      removed += dirSize;
+    }
+  }
+  return removed;
+}
+
 export interface TiffScan { metadataBytes: number; entries: { tag: number; count: number }[] }
 
 export function scanTiff(bytes: Uint8Array): TiffScan {
@@ -107,6 +138,7 @@ export function stripTiff(bytes: Uint8Array, opts: StripOptions): { out: Uint8Ar
 
   const body = bytes.slice();
   let removed = 0;
+  const seenSub = new Set<number>();
 
   // Blank the original directories and the value heap of everything we drop.
   for (const ifd of ifds) {
@@ -115,6 +147,9 @@ export function stripTiff(bytes: Uint8Array, opts: StripOptions): { out: Uint8Ar
       if (!keep(e.tag) && len > 4 && e.valueOffset + len <= body.length) {
         body.fill(0, e.valueOffset, e.valueOffset + len);
         removed += len;
+      }
+      if (!keep(e.tag) && SUB_IFD.has(e.tag)) {
+        removed += blankSubIfd(bytes, body, le, e.valueOffset, seenSub);
       }
     }
     const dirSize = 2 + ifd.entries.length * 12 + 4;

@@ -14,6 +14,7 @@ import { stripFile } from '../src/strip';
 import { verify } from '../src/verify';
 import { DEFAULT_STRIP_OPTIONS, type StripOptions } from '../src/types';
 import { formatBytes, sniffFormat } from '../src/bytes';
+import { classify } from '../src/tags';
 import { buildJsonReport, buildTextReport } from '../src/report';
 import { detectAi } from '../src/detect';
 
@@ -258,6 +259,11 @@ console.log('\n── C2PA-only files ' + '─'.repeat(48));
       `after: clean, ${formatBytes(file.size)} → ${formatBytes(outBuf.length)}`,
     );
   }
+}
+
+// tag classification: anchored rules must see the bare tag name (Make/Model were filed as "other")
+for (const [id, group, want] of [['Make', 'IFD0', 'device'], ['Model', 'IFD0', 'device'], ['LensModel', 'ExifIFD', 'device'], ['CreatorTool', 'XMP-xmp', 'software'], ['Creator', 'XMP-dc', 'identity']] as const) {
+  ok(classify(id, group).category === want, `classify(${id}) should be ${want}, got ${classify(id, group).category}`);
 }
 
 console.log('\n' + '─'.repeat(68));

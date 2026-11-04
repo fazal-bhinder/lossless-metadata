@@ -13,7 +13,7 @@ const RULES: Rule[] = [
   { test: /SerialNumber|BodySerial|InternalSerial|LensSerial|CameraID|DeviceID|OwnerName|CameraOwner/i, category: 'device', severity: 'high' },
   { test: /^(Make|Model|LensMake|LensModel|LensInfo|Lens|CameraModel|HostComputer|FirmwareVersion)$/i, category: 'device', severity: 'medium' },
 
-  { test: /Artist|Copyright|Creator|Author|By-?line|Credit|Rights|Contact|Email|Owner|Photographer/i, category: 'identity', severity: 'high' },
+  { test: /Artist|Copyright|Creator(?!Tool)|Author|By-?line|Credit|Rights|Contact|Email|Owner|Photographer/i, category: 'identity', severity: 'high' },
 
   { test: /DateTime|^Date$|Created|Modif|Digitized|OffsetTime|SubSecTime|Timestamp|TimeZone/i, category: 'datetime', severity: 'medium' },
 
@@ -31,7 +31,8 @@ const RULES: Rule[] = [
 export function classify(id: string, group = ''): { category: Category; severity: Severity } {
   const haystack = group + ' ' + id;
   for (const rule of RULES) {
-    if (rule.test.test(haystack)) return { category: rule.category, severity: rule.severity };
+    // test the bare tag name too, so anchored rules like ^(Make|Model)$ can match
+    if (rule.test.test(id) || rule.test.test(haystack)) return { category: rule.category, severity: rule.severity };
   }
   return { category: 'other', severity: 'low' };
 }
